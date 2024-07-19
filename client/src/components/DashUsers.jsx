@@ -116,11 +116,11 @@ const handleTogglePublicPrivate = async (postId, isPublic) => {
                         <Table.Cell className='text-2xl flex justify-center items-center mt-6'>{post.isAdmin?
                         (<FaRegCheckCircle className='text-green-500'/>):
                         (<FaRegTimesCircle className='text-red-500'/>)}</Table.Cell>
-                        <Table.Cell className='text-2xl'> {post.subscriptionPlan === 'none' ? (
+                        <Table.Cell className='text-2xl'> {post.subscriptionPlan.plan === 'none' ? (
                       <><FaRegStar size={24} color="yellow" />
                       <p className='text-sm'>Free Reader</p></>
                     ) : (
-                      post.subscriptionPlan === 'Premium' ? (
+                      post.subscriptionPlan.plan === 'Premium' ? (
                         <>
                         <FaGem size={30} color="#00c851" /> 
                         <p className='text-sm'>Sapphire Plan</p>

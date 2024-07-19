@@ -12,6 +12,8 @@ import UpdatePost from './pages/UpdatePost'
 import PostPage from './pages/PostPage'
 import Search from './components/Search'
 import PaymentPlans from './pages/PaymentPlans'
+import PaymentSuccess from './components/PaymentSuccess'
+import ConfettiComp from './components/ConfettiaComp'
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +28,7 @@ function App() {
                 <Route path='/post/:slug' element={<PostPage/>}/>
                 <Route path='/search' element={<Search/>}/>
                 <Route path='/paymentPlans' element={<PaymentPlans/>}/>
+                <Route path='/paymentSuccess' element={<PaymentSuccess/>}/>
             </Route>
             <Route element={<OnlyAdminPrivateRoute/>}>
                 <Route element={<CreatePost/>} path='/create-post'/>

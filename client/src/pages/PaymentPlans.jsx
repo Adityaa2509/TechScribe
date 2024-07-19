@@ -1,8 +1,78 @@
 import { Button } from 'flowbite-react'
 import React from 'react'
 import { FaCheck, FaGem, FaRegGem, FaTimes } from 'react-icons/fa'
-
-function PaymentPlans() {
+import {useDispatch, useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import { signinsuccess } from '../features/User'
+function PaymentPlans({slug}) {
+  const {user} = useSelector((state)=>state.User)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handlePayment = async(amount)=>{
+    try{
+      const resp = await fetch('/api/v1/payment/checkout',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({amount})
+      })
+      const data = await resp.json();
+      console.log(data);
+      let plan = "";
+      if(amount == 125){
+        plan = 'Basic'
+      }else plan = 'Premium'
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_API_KEY, 
+        amount: data.order.amount, 
+        currency: "INR",
+        name: "TechScribe",
+        description: "Test Transaction",
+        image: "https://example.com/your_logo",
+        order_id: data.order.id,
+        handler: function (response) {
+          const handlingpayment = async(response)=>{
+            console.log(response);
+          const resp = await fetch('http://localhost:8080/api/v1/payment/paymentVerification',{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({response,user,plan,amount})
+          }) 
+          const data = await resp.json();
+          console.log(data);
+          if(data.success === true){
+            dispatch(signinsuccess(data.user))
+            navigate('/paymentSuccess')}
+          else navigate('/paymentFailure')
+          }
+          handlingpayment(response)
+          },
+        //callback_url: "http://localhost:8080/api/v1/payment/paymentVerification",
+        prefill: {
+            name: user.username,
+            email: user.email,
+            
+        },
+        notes: {
+            address: "Razorpay Corporate Office"
+        },
+       
+        theme: {
+            color: "#5AA062"
+        }
+    };
+    
+    const raqor = new Razorpay(options);
+    raqor.open();
+    
+    
+    }catch(err){
+      console.log(err)
+    }
+  }
   return (
     <div className='min-h-screen flex flex-col items-center mt-10 '>
       <div className={`text-4xl font-mono font-bold dark:text-gray-200 text-orange-700`}>Elevate Your Experience: Discover Our Payment Plans</div>
@@ -35,7 +105,7 @@ function PaymentPlans() {
                         <div className='flex justify-center items-center gap-3'>
                           <FaTimes className='text-red-600'/> <span>Premium Insights </span></div>
                       </div>
-                      <Button className='mt-5' type='button' gradientDuoTone='cyanToBlue' outline>Subscribe Emerald</Button>
+                      <Button className='mt-5' type='button' gradientDuoTone='cyanToBlue' outline onClick={()=>handlePayment(125)}>Subscribe Emerald</Button>
       </div>
       <div className='flex flex-col items-center h-[500px] w-80 rounded-md border-2 border-gray-400 
                     shadow-gray-600
@@ -64,7 +134,7 @@ function PaymentPlans() {
                         <div className='flex justify-center items-center gap-2'>
                         <FaCheck className='text-green-500'/> <span>Premium Insights </span></div>
                       </div>
-                      <Button type='button' gradientDuoTone='greenToBlue' className='mt-5' outline>Subscribe Sapphire</Button>
+                      <Button type='button' gradientDuoTone='greenToBlue' className='mt-5' outline onClick={()=>handlePayment(210)}>Subscribe Sapphire</Button>
       </div>
       </div>
       <div className='mt-20 text-2xl font-medium mx-24 dark:text-gray-300 text-indigo-900

@@ -13,12 +13,17 @@ function PostCard({post}) {
         />
       </Link>
       <div className='p-3 flex flex-col gap-2'>
-      {!user.isAdmin && post.isPaid ? (
+      {user ? (!user.isAdmin && post.isPaid ? (
               <span className='bg-blue-500 text-white text-xs px-2 py-1 ml-[-12px] mt-[-12px] rounded-br-md w-10'>Paid</span>
             ) : (!user.isAdmin &&
               <span className='bg-green-500 text-white text-xs px-2 py-1 ml-[-12px] mt-[-12px] 
               w-10 rounded-br-md'>Free</span>
-            )}
+            )):(post.isPaid ? (
+              <span className='bg-blue-500 text-white text-xs px-2 py-1 ml-[-12px] mt-[-12px] rounded-br-md w-10'>Paid</span>
+            ) : (
+              <span className='bg-green-500 text-white text-xs px-2 py-1 ml-[-12px] mt-[-12px] 
+              w-10 rounded-br-md'>Free</span>
+            ))}
         <p className='text-lg font-semibold line-clamp-2 text-gray-500'>{post.title}</p>
         
         <span className='italic text-sm text-gray-500'>{post.category}</span>

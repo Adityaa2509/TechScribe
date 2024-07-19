@@ -26,7 +26,8 @@ function PostPage() {
                     setLoading(false);
                     return ;
                 }
-               if(!user.isAdmin && data.posts[0].isPaid){
+                console.log(user.subscriptionPlan.plan)
+               if(!user.isAdmin && (data.posts[0].isPaid && user.subscriptionPlan.plan === 'none')){
                 navigate('/paymentPlans');
                 return ;
                }

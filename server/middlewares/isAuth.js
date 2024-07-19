@@ -4,12 +4,13 @@ const isAuth = async (req, resp, next) => {
   
   try{
  const token = req.cookies.web_token;
- console.log(token+"hai hi nahi bhai ji")
+ 
  if (!token) {
   
     return resp.json({
         status:400,
-        msg:"Unauthorized Access"
+        msg:"Unauthorized Access From Middleware0",
+        token:token
     });
   }
 
@@ -17,7 +18,7 @@ const isAuth = async (req, resp, next) => {
     if (err) {
        return resp.json({
         status:401,
-        msg:"Unauthorized Access"
+        msg:"Unauthorized Access from middleware1"
     });
     }
     req.user = payload;

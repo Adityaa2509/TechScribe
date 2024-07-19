@@ -18,6 +18,7 @@ function Header() {
           const data = await resp.json();
           if(data.status === 200){
             dispatch(logoutsuccess());
+            console.log('user logout')
             navigate('/');
             return ;
           }

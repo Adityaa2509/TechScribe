@@ -26,8 +26,11 @@ const userSchema = new mongoose.Schema({
         default:false
     },
     subscriptionPlan:{
-        type:String,
-        default:'none'
+        plan: { 
+            type: String, 
+            default: 'none' },
+        startDate: { type: Date },
+        expiryDate: { type: Date }
     }
 },{timestamps:true})
 
