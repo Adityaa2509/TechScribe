@@ -1,18 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
-
+import { useLocation } from 'react-router-dom';
 import useWindowSize from "react-use/lib/useWindowSize";
 import gem from '../gem.gif'
 import { useEffect, useState } from "react";
 import { Button } from "flowbite-react";
 
-function ConfettiComp() {
+function ConfettiComp(props) {
+  
     const navigate = useNavigate();
     const [seconds,setSeconds] = useState(5)
    setTimeout(() => {
     navigate('/search')
+
    }, 5000);
-   
+    setTimeout(()=>{
+      setSeconds(seconds-1);
+    },1000) 
+    let pd = props.subscription.plan;
+    if(pd == 'Basic'){
+      pd = "Emerald"
+    }else pd = "Sapphire";
+    console.log(props.razorpay_payment_id)
   const { width, height } = useWindowSize();
   return (
     <div className="min-h-screen">
@@ -20,11 +29,11 @@ function ConfettiComp() {
       <Confetti width={width} height={height} recycle={false} />
       <div className="font-mono font-extrabold text-5xl dark:text-gray-300 text-gray-800
       text-center mt-5">Payment Successful</div>
-      <div className="text-center dark:text-gray-300 text-gray-800 mt-2 text-md">Payment id : <span className="text-xs text-green-500">cbkwdjbckdbcvjdbvkj</span></div>
+      <div className="text-center dark:text-gray-300 text-gray-800 mt-2 text-md">Payment id : <span className="text-xs text-green-500">{props.razorpay_payment_id}</span></div>
       <div className="font-mono font-extrabold text-4xl dark:text-gray-300 text-gray-800
       text-center mt-44">Welcome to the TechScribe Community</div>
       <div className="font-mono font-bold text-3xl dark:text-gray-400 text-gray-800
-      text-center mt-3">You are Emeral Of Our Family</div>
+      text-center mt-3">You are {pd}  Of Our Family</div>
 <div className="font-mono font-bold text-xl dark:text-gray-400 text-gray-800
       text-center mt-2">Expore All the EXCLUSIVE Content ans Stay ahead in Learning</div>
       <Button gradientDuoTone='greenToBlue' outline className="h-12 w-32 text-center mx-auto mt-10"

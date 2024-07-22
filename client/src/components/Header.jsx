@@ -34,15 +34,7 @@ function Header() {
             <Link  to={"/"} className='text-sm sm:text-xl font-semibold dark:text-white'>
                 TechScribe
             </Link>
-        </Button>{user &&
-        <form>
-            <TextInput
-            type='text'
-            className='hidden lg:inline'
-            placeholder='Search....'
-            rightIcon={AiOutlineSearch }
-            />
-        </form>}
+        </Button>
         <Button className='w-14 lg:hidden rounded-full' color="gray" gradientDuoTone="greenToBlue">
             <AiOutlineSearch/>
         </Button>

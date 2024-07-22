@@ -52,13 +52,15 @@ const paymentVerification = async(req,resp)=>{
     const startDate = new Date();
     const expiryDate = new Date(startDate);
     expiryDate.setDate(startDate.getDate() + 30);
-    const subscriber = await User.findByIdAndUpdate(user._id, {
+    let subscriber = await User.findByIdAndUpdate(user._id, {
       $set:{
-      'subscriptionPlan.plan': plan,
-      'subscriptionPlan.startDate': startDate,
-      'subscriptionPlan.expiryDate': expiryDate
+      subscriptionPlan:{plan: plan,
+      startDate: startDate,
+      expiryDate: expiryDate}
     }},{$new:true});
-console.log(subscriber)
+    console.log("subscriber ban gaya bhaiya mein ",subscriber)
+subscriber = await User.findById(user._id);
+console.log("subscriber ban gaya bhaiya mein ",subscriber)
   const subscription =   await Subscription.create({
       user: user._id,
       plan,

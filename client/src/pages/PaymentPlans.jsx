@@ -42,10 +42,12 @@ function PaymentPlans({slug}) {
             body:JSON.stringify({response,user,plan,amount})
           }) 
           const data = await resp.json();
-          console.log(data);
+       console.log(data)
           if(data.success === true){
-            dispatch(signinsuccess(data.user))
-            navigate('/paymentSuccess')}
+            
+            dispatch(signinsuccess(data.subscriber))
+            navigate('/paymentSuccess',{ state: { subscription:data.subscription,
+              razorpay_payment_id:data.razorpay_payment_id } })}
           else navigate('/paymentFailure')
           }
           handlingpayment(response)
