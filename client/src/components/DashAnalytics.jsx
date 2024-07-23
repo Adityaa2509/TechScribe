@@ -18,6 +18,7 @@ function DashAnalytics() {
     const [lastMonthUsers, setLastMonthUsers] = useState(0);
     const [lastMonthPosts, setLastMonthPosts] = useState(0);
     const [lastMonthComments, setLastMonthComments] = useState(0);
+
     const currentUser = useSelector((state)=>state.User.user);
     useEffect(() => {
         const fetchUsers = async () => {
@@ -53,10 +54,28 @@ function DashAnalytics() {
             console.log(error.message);
           }
         };
+        const fetchAnalytics = async()=>{
+          try{
+            const res = await fetch('/api/analytics/total');
+            const data = await res.json();
+            console.log(data)
+            if (data.success === true) {
+              setTotalUsers(data.totalUsers);
+              setTotalComments(data.totalComments);
+              setTotalPosts(data.totalPosts);
+              setLastMonthComments(data.lastMonthComments)
+              setLastMonthUsers(data.lastMonthUsers)
+              setLastMonthPosts(data.lastMonthPosts)
+              }
+          }catch(err){
+            console.log(err.message);
+          }
+        }
         if (currentUser.isAdmin) {
           fetchUsers();
           fetchPosts();
           fetchComments();
+          fetchAnalytics()
         }
       }, [currentUser]);
   return (

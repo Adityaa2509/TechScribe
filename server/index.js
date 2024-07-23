@@ -14,12 +14,13 @@ const userRouter = require('./routes/user.route')
 const postRouter = require('./routes/post.route');
 const commentRouter = require('./routes/comment.route')
 const paymentRouter = require('./routes/payment.route');
+const analyticsRouter = require('./routes/analytics.route');
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/post',postRouter);
 app.use('/api/v1/comment',commentRouter);
 app.use('/api/v1/payment',paymentRouter);
-
+app.use('/api/analytics',analyticsRouter);
 connectDb();
 require('./utils/cronjob');
 app.listen(PORT,()=>{

@@ -4,7 +4,7 @@ import { Button, Modal, Table } from "flowbite-react";
 import {Link, useNavigate} from 'react-router-dom'
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheckCircle, FaCheckDouble, FaGem, FaRegCheckCircle, FaRegGem, FaRegHandshake, FaRegStar, FaRegTimesCircle, FaStar, FaTimesCircle } from 'react-icons/fa';
-
+import { Line } from 'react-chartjs-2';
 function DashUsers() {
 const navigate = useNavigate();
   const {user} = useSelector((state)=>state.User);
@@ -12,6 +12,7 @@ const navigate = useNavigate();
   const [users,setusers] =  useState([])
   const [showMore,setShowMore] = useState(true)
   const [openModal, setOpenModal] = useState(false);
+  const [chartData,setChartData] = useState({})
   const[pid,setPid] = useState(0);
   console.log(users);
   useEffect(()=>{
@@ -25,7 +26,31 @@ const navigate = useNavigate();
               setShowMore(false)
           }
       }
-      if(user.isAdmin)fetchPost()
+      const fetchData = async () => {
+        try {
+          console.log("fetching start")
+          const resp = await fetch('/api/analytics/user');
+          const data = await resp.json();
+          console.log(data);
+          // Format data for Chart.js
+          if(data.success == true){
+          // const formattedData = {
+          //   labels: data.data.map(entry => `${entry._id.year}-${entry._id.month}`),
+          //   datasets: [{
+          //     label: 'User Registrations',
+          //     data: data.data.map(entry => entry.count),
+          //     fill: false,
+          //     borderColor: 'rgb(75, 192, 192)',
+          //     tension: 0.1
+          //   }]
+          // }
+        setChartData({})
+        }}catch(err){
+            console.log(err.message)
+          }}
+  
+          
+      if(user.isAdmin){fetchPost();fetchData()}
         console.log(users)
   },[user._id])
 const handleShowMore = async()=>{
@@ -79,6 +104,7 @@ const handleTogglePublicPrivate = async (postId, isPublic) => {
       {
         user.isAdmin && users.length>0?(
           <div>
+             
           <Table hoverable className='shadow-md  mt-4'>
               <Table.Head>
                 <Table.HeadCell>Joined At</Table.HeadCell>
