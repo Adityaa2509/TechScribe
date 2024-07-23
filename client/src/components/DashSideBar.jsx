@@ -1,6 +1,6 @@
 import { Sidebar } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
-import {HiUser,HiArrowSmRight, HiDocument, HiAnnotation, HiChartPie} from 'react-icons/hi'
+import {HiUser,HiArrowSmRight, HiDocument, HiAnnotation, HiChartPie, HiOutlineUserRemove, HiOutlineUserGroup, HiSpeakerphone, HiAcademicCap, HiMenuAlt4, HiCalendar, HiCreditCard} from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logoutfailure, logoutsuccess } from '../features/User';
@@ -74,6 +74,15 @@ function DashSideBar() {
                  as='div'
                    labelColor='dark'>
                       Comments
+                  </Sidebar.Item>
+                  </Link>:<></>
+                }
+                {
+                  user.isAdmin?<Link to='/dashboard?tab=subscriber'>
+                  <Sidebar.Item active={tab === 'subscriber'} icon={HiCreditCard} 
+                 as='div'
+                   labelColor='dark'>
+                      Subsciption
                   </Sidebar.Item>
                   </Link>:<></>
                 }

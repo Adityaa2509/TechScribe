@@ -56,7 +56,9 @@ const paymentVerification = async(req,resp)=>{
       $set:{
       subscriptionPlan:{plan: plan,
       startDate: startDate,
-      expiryDate: expiryDate}
+      expiryDate: expiryDate,
+      createdAt:Date.now()
+    }
     }},{$new:true});
     console.log("subscriber ban gaya bhaiya mein ",subscriber)
 subscriber = await User.findById(user._id);
@@ -67,7 +69,8 @@ console.log("subscriber ban gaya bhaiya mein ",subscriber)
       startDate,
       expiryDate,
       amount,
-      status: 'Active'
+      status: 'Active',
+      createdAt:Date.now()
     });
     console.log(subscription);
     return resp.json({

@@ -1,3 +1,4 @@
+const Subscription = require("../models/Subscription.model");
 const User = require("../models/User.model");
 const bcryptjs = require('bcryptjs')
 const deleteUser = async(req,resp)=>{
@@ -136,6 +137,83 @@ const deleteAdmin = async(req,resp)=>{
     }
 }
 
+const allSubscribers = async(req,resp)=>{
+    try{
+        const user = req.user;
+        if(!req.user.isAdmin)
+            return resp.json({
+                msg:"Unauthorized Access",
+                status:402,
+                success:false
+            })
+            const startIndex = req.query.startIndex||0;
+            const limit = req.query.limit||9;
+            const sortDirection = req.query.sort == 'asc'?1:-1;
+            const data = await Subscription.find().populate({path:'user',select:'username email profilePicture'}).sort({createdAt:sortDirection}).skip(startIndex).limit(limit);
+            // const subscribers = data.map((user)=>{
+            //     const {password,...rest} = user._doc;
+            //     return rest;
+            // })
+            return resp.json({
+                msg:"Subscriber Fetched Successfully",
+                data,
+                status:200,
+                success:true
+            })
+    }catch(err){
+        console.log(err.message);
+        return resp.json({
+            msg:"Internal Server Error",
+            success:false,
+            status:500,
+           err:err.message 
+        })
+    }
+}
 
-module.exports = {deleteUser,updateUserController,getUsers,deleteAdmin}
+const deleteSubscription = async(req,resp)=>{
+    try{
+            const user = req.user;
+            if(!user.isAdmin)
+                return resp.json({
+                    msg:"Unauthorized Access",
+                    success:false,
+                    status:402,
+            })
+
+            const {subscriberId} = req.params;
+            const userdel = await Subscription.findByIdAndDelete(subscriberId);
+           console.log(userdel)
+            if(!userdel)
+                return resp.json({
+                    msg:"Subscriber do not exists",
+                    success:false,
+                    status:400,
+            })
+            const updatedUser = await User.findByIdAndUpdate(
+                userdel.user,
+                { $unset: { subscriptionPlan: '' } },
+                { new: true }
+            );
+            await updatedUser.save()
+            console.log(updatedUser)
+            return resp.json({
+                msg:"User Deleted Successfully",
+                    success:true,
+                    status:200,
+            })
+    }catch(err){
+        console.log(err);
+        return resp.json({
+            msg:"Internal Server Error",
+            success:false,
+            status:500,
+           err:err.message 
+        })
+    }
+}
+
+
+
+module.exports = {deleteUser,updateUserController,getUsers,deleteAdmin,allSubscribers,deleteSubscription}
 

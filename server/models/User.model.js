@@ -29,11 +29,25 @@ const userSchema = new mongoose.Schema({
         plan: { 
             type: String, 
             default: 'none' },
+            createdAt: {
+                type: Date,
+                expires: 60 * 60 * 24 * 30, // The document will be automatically deleted after 5 minutes of its creation time
+            },
         startDate: { type: Date },
         expiryDate: { type: Date }
     }
 },{timestamps:true})
 
+userSchema.pre('save', function(next) {
+    if (this.isNew) { // Check if the document is being newly created
+        this.subscriptionPlan = {
+            plan: 'none',
+            startDate: null,
+            expiryDate: null
+        };
+    }
+    next();
+});
 
 const User = mongoose.model('User',userSchema);
 
