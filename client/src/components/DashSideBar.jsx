@@ -82,7 +82,7 @@ function DashSideBar() {
                   <Sidebar.Item active={tab === 'subscriber'} icon={HiCreditCard} 
                  as='div'
                    labelColor='dark'>
-                      Subsciption
+                      Subsciptions
                   </Sidebar.Item>
                   </Link>:<></>
                 }

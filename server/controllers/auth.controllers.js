@@ -2,7 +2,9 @@ const User = require("../models/User.model");
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {z} = require('zod');
-
+const OTP = require("../models/Otp.model");
+const otpGenerator = require("otp-generator")
+const mailSender = require("../utils/mailSender")
 
 const usernameMinLength = 7;
 const passwordMinLength = 7;
@@ -230,6 +232,49 @@ const googleAuthController = async(req,resp)=>{
         })
     }
 }
+const sendOtp = async(req,resp)=>{
+    try{
+        const { email } = req.body
+        const checkUserPresent = await User.findOne({ email })
+        if (checkUserPresent) {
+          return resp.json({
+            status:401,
+            success: false,
+            message: `User Already exists`,
+          })
+        }
+    
+        var otp = otpGenerator.generate(6, {
+          upperCaseAlphabets: false,
+          lowerCaseAlphabets: false,
+          specialChars: false,
+        })
+        const result = await OTP.findOne({ otp: otp })
+        console.log("Result is Generate OTP Func")
+        console.log("OTP", otp)
+        console.log("Result", result)
+        while (result) {
+          otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+          })
+        }
+        const otpPayload = { email, otp }
+        const otpBody = await OTP.create(otpPayload)
+        console.log("OTP Body", otpBody)
+        resp.status(200).json({
+          success: true,
+          message: `OTP Sent Successfully`,
+          otp,
+        })
+    }catch(err){
+        console.log(err);
+        return resp.json({
+                msg:"Internal Server Error",
+            success:false,
+            status:500,
+            err
+        })
+    }
+}
 
-
-module.exports = {registerController,loginController,logoutController,googleAuthController}
+module.exports = {registerController,loginController,logoutController,googleAuthController,sendOtp}

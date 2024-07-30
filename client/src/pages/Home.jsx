@@ -6,7 +6,7 @@ import PostCard from '../components/PostCard';
 function Home() {
     const [posts, setPosts] = useState([]);
     const {user} = useSelector((state) => state.User);
-
+console.log(user)
     useEffect(() => {
         const fetchPosts = async () => {
             const res = await fetch('/api/v1/post/all?limit=3');
@@ -15,10 +15,13 @@ function Home() {
           console.log(data.posts)
           console.log(user+"tahi aaja")
             let isAdmin = false
-            if(user)
+            let temp = false
+            if(user){
            isAdmin = user && user.isAdmin;
+            temp = user && (user.subscriptionPlan.plan === 'Basic' ||user.subscriptionPlan.plan === 'none')
+        }
         console.log(filteredPosts)
-            console.log(isAdmin)
+            console.log()
             if (!isAdmin) {
                 filteredPosts = filteredPosts.filter(post => post.isPublic);
             }

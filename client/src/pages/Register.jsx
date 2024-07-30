@@ -20,6 +20,7 @@ function Register() {
 const handleSubmit = async(e)=>{
 e.preventDefault();
 try{
+
   dispatch(signupstart());
   const resp = await fetch('/api/v1/auth/register',{
     method:"POST",
@@ -39,7 +40,7 @@ try{
       dispatch(signupfailure(data.message))
       setTimeout(() => {
         navigate('/login')
-      }, 2000);
+      }, 1000);
 
     }
     dispatch(signupfailure(data.message));
