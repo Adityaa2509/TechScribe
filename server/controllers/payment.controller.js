@@ -94,7 +94,8 @@ console.log("subscriber ban gaya bhaiya mein ",subscriber)
       createdAt:Date.now()
     });
     console.log(subscription);
-   console.log("YAHA TAK TO AA GAYE BHAIJAAN");
+  
+    //sending payment verification email to user 
 await sendPaymentCompletionEmail(user.email, user.username, plan);
     return resp.json({
       success:true,
