@@ -14,6 +14,7 @@ import Search from './components/Search'
 import PaymentPlans from './pages/PaymentPlans'
 import PaymentSuccess from './components/PaymentSuccess'
 import ConfettiComp from './components/ConfettiaComp'
+import OTP from './components/OTP'
 function App() {
   return (
     <BrowserRouter>
@@ -22,7 +23,7 @@ function App() {
             <Route path='/' element={<Home/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
-           
+           <Route path='/otp' element={<OTP/>}/>
             <Route element={<PrivateRoute/>}>
                 <Route path='/dashboard' element={<Dashboard/>}/>
                 <Route path='/post/:slug' element={<PostPage/>}/>

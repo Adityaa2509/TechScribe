@@ -3,6 +3,27 @@ const Subscription = require('../models/Subscription.model');
 const User = require('../models/User.model');
 const {rpob} = require('../Razorpay')
 const crypto  = require("crypto")
+const mailSender = require("../utils/mailSender");
+const paymentCompletionTemplate = require("../utils/Template/emailPaymentVerification");
+async function sendPaymentCompletionEmail(email, username, plan) {
+	try {
+		const mailResponse = await mailSender(
+			email,
+			"Payment Completion and Welcome to TechScribe",
+			paymentCompletionTemplate(username, plan)
+		);
+		console.log("Inside Payment Model");
+		console.log(mailResponse);
+		console.log("Payment completion email sent successfully: ", mailResponse.response);
+	} catch (error) {
+		console.log("Inside Payment Model");
+		console.log(error.message);
+		console.log("Error occurred while sending payment completion email: ", error);
+		throw error;
+	}
+}
+
+module.exports = sendPaymentCompletionEmail;
 const checkOut = async(req,resp)=>{
 try{
     const options = {
@@ -73,6 +94,8 @@ console.log("subscriber ban gaya bhaiya mein ",subscriber)
       createdAt:Date.now()
     });
     console.log(subscription);
+   console.log("YAHA TAK TO AA GAYE BHAIJAAN");
+await sendPaymentCompletionEmail(user.email, user.username, plan);
     return resp.json({
       success:true,
       msg:"Payment Successful",

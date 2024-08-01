@@ -17,7 +17,8 @@ const registerSchema = z.object({
     .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
     .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
     .regex(/\d/, { message: 'Password must contain at least one numeric digit' })
-    .regex(/[!@#$%^&*()_+{}\[\]:;<>,.?~\\|\-=/]/, { message: 'Password must contain at least one special character' }),
+    .regex(/[!@#$%^&*()_+{}\[\]:;<>,.?~\\|\-=/]/, { message: 'Password must contain at least one special character' })
+
   });
 
 
@@ -34,7 +35,7 @@ const registerController = async(req,resp)=>{
             })
         }
         console.log(zodresp)
-        const { username, email, password } = req.body;
+        const { username, email, password,otp } = req.body;
         if(!username || username=="")
             return resp.status(400).json({message:"Please Fill the username",sucess:false,err:
         "Please Fill the username"});
@@ -44,6 +45,9 @@ const registerController = async(req,resp)=>{
         if(!password || password=="")
             return resp.status(400).json({message:"Please Fill the Password",sucess:false,err:
                 "Please Fill the Password"});;
+        if(!otp || otp == "")
+            return resp.status(400).json({message:"Please Fill the OTP",sucess:false,err:
+                        "Please Fill the OTP"});;        
         
         //checking whether with this email already registered
         const user = await User.findOne({email});
@@ -51,6 +55,27 @@ const registerController = async(req,resp)=>{
            return resp.status(402).json({message:"User Already exists",sucess:false,err:
                 "User Already exists"});
         }
+
+        //verifying the otp
+        const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1)
+        console.log(response)
+         if (response.length === 0) {
+      // OTP not found for the email
+      return resp.json({
+        status:400,
+        success: false,
+        message: "The OTP is not valid",
+      })
+    } else if (otp !== response[0].otp) {
+      // Invalid OTP
+      return resp.json({
+        status:400,
+        success: false,
+        message: "The OTP is not valid",
+      })
+    }
+
+
 
         //hashing the password using bcrypt
        let hashedPassword = ""
@@ -234,7 +259,28 @@ const googleAuthController = async(req,resp)=>{
 }
 const sendOtp = async(req,resp)=>{
     try{
-        const { email } = req.body
+        const { username, email, password } = req.body;
+        const zodresp =  registerSchema.safeParse(req.body);
+        if(!zodresp.success){
+            return resp.json({
+                message:zodresp.error.issues[0].message,
+                success:false,
+                status:500,
+                err:zodresp.error.issues[0].message
+            })
+        }
+        console.log(zodresp)
+      
+        if(!username || username=="")
+            return resp.status(400).json({message:"Please Fill the username",sucess:false,err:
+        "Please Fill the username"});
+        if(!email || email == "")
+            return resp.status(400).json({message:"Please Fill the email",sucess:false,err:
+                "Please Fill the email"});;
+        if(!password || password=="")
+            return resp.status(400).json({message:"Please Fill the Password",sucess:false,err:
+                "Please Fill the Password"});;
+        
         const checkUserPresent = await User.findOne({ email })
         if (checkUserPresent) {
           return resp.json({
@@ -261,7 +307,8 @@ const sendOtp = async(req,resp)=>{
         const otpPayload = { email, otp }
         const otpBody = await OTP.create(otpPayload)
         console.log("OTP Body", otpBody)
-        resp.status(200).json({
+        resp.json({
+            status:200,
           success: true,
           message: `OTP Sent Successfully`,
           otp,
@@ -269,7 +316,7 @@ const sendOtp = async(req,resp)=>{
     }catch(err){
         console.log(err);
         return resp.json({
-                msg:"Internal Server Error",
+                message:"Internal Server Error",
             success:false,
             status:500,
             err

@@ -22,17 +22,19 @@ e.preventDefault();
 try{
 
   dispatch(signupstart());
-  const resp = await fetch('/api/v1/auth/register',{
+  const resp = await fetch('/api/v1/auth/sendOtp',{
     method:"POST",
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify(formData)
   })
   const data = await resp.json();
   console.log(data);
-  if(data.sucess === true)
+  if(data.success === true)
   {dispatch(signupsuccess());
-    toast.success('User registered successfully');
-    navigate('/login')
+    toast.success('OTP Sent Successfully');
+    setTimeout(() => {
+      navigate('/otp',{ state: formData})
+    }, 2000);
     return ;
   }
   if(data.message === "User Already exists")
