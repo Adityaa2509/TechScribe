@@ -2,6 +2,7 @@ const moment = require('moment');
 const User = require('../models/User.model');
 const Post = require('../models/Post.model');
 const Comment = require('../models/Comment.model');
+const Subscription = require('../models/Subscription.model');
 
 const totalDetailController = async(req,resp)=>{
     try{
@@ -89,4 +90,51 @@ const userAnalytics = async(req,resp)=>{
     }
 }
 
-module.exports = {totalDetailController,userAnalytics}
+const subscriptionAnalytics = async(req,resp)=>{
+  try{
+    const user = req.user;
+    if(!user.isAdmin)
+      return resp.json({
+    msg:"Not Allowed",
+    success:false,
+    status:402,
+    })
+    const pipeline = [
+      {
+        $group: {
+          _id: '$plan', // Group by the 'plan' field
+          totalUsers: { $sum: 1 } // Count the number of users per plan
+        }
+      },
+    ]
+    const data = await Subscription.aggregate(pipeline);
+     let totalUser = await User.countDocuments();
+      let len = data.length;
+      let temp = 0;  
+      if(len>=2){
+        temp = (data[0].totalUsers + data[1].totalUsers);
+      }else if(len>=1){
+        temp = (data[0].totalUsers);
+      }
+      let leftOut = totalUser - temp; 
+      let t= {_id:"Free Reader",totalUsers:leftOut};
+      data.push(t);
+    return resp.json({
+      msg:"Analytics fetched Successfully",
+      status:true,
+      success:200,
+      data
+    });
+  }catch(err){
+    console.log(err.message);
+    return resp.json({
+      msg:"Internal Server Error",
+      success:false,
+      status:500,
+      err:err
+    })
+  }
+}
+
+
+module.exports = {totalDetailController,userAnalytics,subscriptionAnalytics}
