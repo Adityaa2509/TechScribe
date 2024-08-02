@@ -1,6 +1,7 @@
 import { Sidebar } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import {HiUser,HiArrowSmRight, HiDocument, HiAnnotation, HiChartPie, HiOutlineUserRemove, HiOutlineUserGroup, HiSpeakerphone, HiAcademicCap, HiMenuAlt4, HiCalendar, HiCreditCard} from 'react-icons/hi'
+import { FaChartLine } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logoutfailure, logoutsuccess } from '../features/User';
@@ -32,7 +33,7 @@ function DashSideBar() {
           navigate('/');
     }
   return (
-    <Sidebar className='w-full md:w-56'>
+    <Sidebar className='w-full md:w-56 '>
         <Sidebar.Items className=''>
             <Sidebar.ItemGroup>
                 <Link to='/dashboard?tab=profile'>
@@ -42,8 +43,9 @@ function DashSideBar() {
                     Profile
                 </Sidebar.Item>
                 </Link>
+                
                 {
-                  user.isAdmin?<Link to='/dashboard?tab=analytics'>
+                  user.isAdmin?<Link to='/dashboard?tab=analytics' >
                   <Sidebar.Item active={tab === 'analytics' || !tab} icon={HiChartPie} 
                     as='div'
                    labelColor='dark'>
@@ -83,6 +85,15 @@ function DashSideBar() {
                  as='div'
                    labelColor='dark'>
                       Subsciptions
+                  </Sidebar.Item>
+                  </Link>:<></>
+                }
+                {
+                  user.isAdmin?<Link to='/dashboard?tab=visuals'>
+                  <Sidebar.Item active={tab === 'visuals'} icon={FaChartLine} 
+                 as='div'
+                   labelColor='dark'>
+                     Visual Analytics
                   </Sidebar.Item>
                   </Link>:<></>
                 }

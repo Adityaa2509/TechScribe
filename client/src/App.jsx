@@ -15,6 +15,8 @@ import PaymentPlans from './pages/PaymentPlans'
 import PaymentSuccess from './components/PaymentSuccess'
 import ConfettiComp from './components/ConfettiaComp'
 import OTP from './components/OTP'
+import UserAnalytics from './components/UserAnalytics'
+import SubscriptionAnalytics from './components/SubscriptionAnalytics'
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +26,8 @@ function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
            <Route path='/otp' element={<OTP/>}/>
+           {/* <Route path='/ua' element={<UserAnalytics/>}/>
+           <Route path='/pie' element={<SubscriptionAnalytics/>}/> */}
             <Route element={<PrivateRoute/>}>
                 <Route path='/dashboard' element={<Dashboard/>}/>
                 <Route path='/post/:slug' element={<PostPage/>}/>

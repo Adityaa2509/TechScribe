@@ -7,6 +7,7 @@ import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
 import DashAnalytics from '../components/DashAnalytics';
 import DashSubscription from '../components/DashSubscription';
+import VisualAnalytics from '../components/VisualAnalytics';
 
 function Dashboard() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function Dashboard() {
       {tab === 'comment' && <DashComments/>}
       {tab === 'analytics' && <DashAnalytics/>}
       {tab == "subscriber" && <DashSubscription/>}
+      {tab == "visuals" && <VisualAnalytics/>}
     </div>
   )
 }

@@ -34,9 +34,9 @@ console.log(user)
     return (
         <div>
             <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
-                <h1 className='text-7xl font-bold '>Welcome to TechScribe</h1>
+                <h1 className='text-7xl font-bold dark:text-gray-300 text-blue-900'>Welcome to TechScribe</h1>
 
-                <p className='text-gray-400 text-lg '>
+                <p className='dark:text-gray-400 text-lg text-gray-700'>
                     Explore a world of innovation and creativity in technology. From web development to machine learning, Tech Bytes is your go-to destination for insightful articles, tutorials, and updates in the world of tech and coding.
                 </p>
                  {user ? (
@@ -82,6 +82,17 @@ console.log(user)
                 )}  </div>
                 )}
             </div>
+            <footer className='dark:bg-gray-800 bg-gray-300 dark:text-white text-gray-800 py-6 mt-24 w-full'>
+      <div className='container mx-auto text-center'>
+      <p className='text-lg font-semibold mb-2'>Discover the Future of Tech with TechScribe</p>
+        <p className='text-sm italic mb-4'>
+          At TechScribe, we bring you the latest insights and trends in the tech industry. Our carefully curated articles and exclusive content are designed to keep you ahead of the curve. Dive into our diverse range of topics and stay informed with the most relevant and up-to-date tech news. Whether you're a tech enthusiast or a professional, TechScribe has something for everyone. Explore now and stay connected!
+        </p>
+        <div className='text-xs'>
+          <span>© {new Date().getFullYear()} TechScribe. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
         </div>
     );
 }

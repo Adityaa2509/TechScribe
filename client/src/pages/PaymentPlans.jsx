@@ -139,8 +139,19 @@ function PaymentPlans({slug}) {
                       <Button type='button' gradientDuoTone='greenToBlue' className='mt-5' outline onClick={()=>handlePayment(210)}>Subscribe Sapphire</Button>
       </div>
       </div>
-      <div className='mt-20 text-2xl font-medium mx-24 dark:text-gray-300 text-indigo-900
-      font-mono italic '>Be a part of the TechScribe family and enjoy unparalleled access to the best tech content available. Whether you choose Sapphire or Emerald, our plans are tailored to provide you with the information you need to succeed in the tech industry. Subscribe today!</div>
+      <footer className='dark:bg-gray-800 bg-gray-300 dark:text-white text-gray-800 py-6 mt-24 w-full'>
+        <div className='container mx-auto text-center'>
+          <p className='text-xl font-semibold mb-2'>Join the TechScribe Community</p>
+          <p className='text-md italic mb-4'>
+            Be a part of the TechScribe family and enjoy unparalleled access to the best tech content available. 
+            Whether you choose Sapphire or Emerald, our plans are tailored to provide you with the information 
+            you need to succeed in the tech industry. Subscribe today!
+          </p>
+          <div className='text-sm'>
+            <span>© {new Date().getFullYear()} TechScribe. All rights reserved.</span>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
