@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 import Comment from './Comment';
+import Fotter from './Fotter';
 function CommentSection({postId}) {
     const [comment,setComment] = useState('')
     const [loading,setLoading] = useState(false);
@@ -149,6 +150,7 @@ function CommentSection({postId}) {
         ))}
     </>
 )}
+
     </div>
   )
 }

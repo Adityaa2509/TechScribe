@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 import CommentSection from '../components/CommentSection';
 import { useSelector } from 'react-redux';
 import { FaThumbsUp } from 'react-icons/fa';
+import Fotter from '../components/Fotter';
 function PostPage() {
     let {slug} = useParams();
     const [loading,setLoading] = useState(false);
@@ -117,7 +118,7 @@ function PostPage() {
                 <CommentSection postId = {post._id}/>}
             </main>:<></>
         }
-
+<Fotter/>
     </div>
   )
 }

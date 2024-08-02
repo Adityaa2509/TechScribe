@@ -137,6 +137,8 @@ function Create() {
             
             </Button>
       </form>
+      
+<Fotter/>
     </div>
   )
 }

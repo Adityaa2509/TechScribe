@@ -1,8 +1,9 @@
-import { Button, Select, TextInput } from 'flowbite-react';
+import { Button, Footer, Select, TextInput } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PostCard from './PostCard';
 import { useSelector } from 'react-redux';
+import Fotter from './Fotter';
 
 function Search() {
   const { user } = useSelector((state) => state.User);
@@ -154,7 +155,11 @@ function Search() {
             </button>
           )}
         </div>
+      
+
       </div>
+      
+
     </div>
   );
 }

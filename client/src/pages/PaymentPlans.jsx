@@ -4,6 +4,7 @@ import { FaCheck, FaGem, FaRegGem, FaTimes } from 'react-icons/fa'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import { signinsuccess } from '../features/User'
+import Fotter from '../components/Fotter'
 function PaymentPlans({slug}) {
   const {user} = useSelector((state)=>state.User)
   const navigate = useNavigate();
@@ -152,6 +153,7 @@ function PaymentPlans({slug}) {
           </div>
         </div>
       </footer>
+      <Fotter/>
     </div>
   )
 }

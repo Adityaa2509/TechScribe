@@ -6,6 +6,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 import { signinfailure, signinstart, signinsuccess, signupfailure } from '../features/User';
 import OAuth from '../components/OAuth';
+import Fotter from '../components/Fotter';
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -93,6 +94,7 @@ const handlechange = (e)=>{
    
 
 </div>
+<Fotter/>
 </div>
   )
 }

@@ -17,6 +17,7 @@ import ConfettiComp from './components/ConfettiaComp'
 import OTP from './components/OTP'
 import UserAnalytics from './components/UserAnalytics'
 import SubscriptionAnalytics from './components/SubscriptionAnalytics'
+import Error from './pages/Error'
 function App() {
   return (
     <BrowserRouter>
@@ -39,6 +40,7 @@ function App() {
                 <Route element={<CreatePost/>} path='/create-post'/>
                 <Route element={<UpdatePost/>} path='/update-post/:postId'/>
             </Route>
+            <Route path="*" element={<Error />} />
         </Routes>
     </BrowserRouter>
   )

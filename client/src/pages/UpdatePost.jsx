@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import { app } from '../../firebase';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
+import Fotter from '../components/Fotter';
 
 
 function UpdatePost() {
@@ -159,7 +160,9 @@ function UpdatePost() {
             
             </Button>
       </form>
+    <Fotter/>
     </div>
+
   )
 }
 
